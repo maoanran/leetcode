@@ -14,7 +14,7 @@ public:
         for (int i = 0; i < nums.size(); i++) {
             int wanted = target - nums[i];
             if (map.find(wanted) != map.end()) {
-                return {map[wanted], i};
+                return {map[wanted] + 1, i + 1};
             }
             map[nums[i]] = i;
         }
