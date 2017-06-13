@@ -5,25 +5,31 @@ using namespace std;
 
 class Solution {
 public:
-    void moveZeroes(vector<int> &nums) {
-        int j = 0;
+    int removeElement(vector<int>& nums, int val) {
+        int pos = 0;
         for (int n : nums) {
-            if (n != 0)
-                nums[j++] = n;
+            if (n != val) {
+                nums[pos++] = n;
+            }
         }
-        while (j < nums.size()) {
-            nums[j++] = 0;
+        int result = pos;
+        while (pos < nums.size()) {
+            nums[pos++] = val;
         }
+        return result;
     }
 };
 
 int main() {
     Solution *s = new Solution();
-    vector<int> v{0, 1, 0, 3, 12};
-    s->moveZeroes(v);
+    vector<int> v{3, 2, 2, 3, 12};
+    int result = s->removeElement(v, 3);
 
     for (int n : v) {
         cout << n << endl;
     }
+
+    cout << result << endl;
+
     return 0;
 }
