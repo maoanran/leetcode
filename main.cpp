@@ -4,18 +4,18 @@ using namespace std;
 
 class Solution {
 public:
-    int mySqrt(int x) {
-        long l = x;
-        while (l * l > x) {
-            l = (l + x / l) / 2;
+    string reverseString(string s) {
+        int l = s.size();
+        for (int i = 0; i < l / 2; i++) {
+            swap(s[i], s[l - i - 1]);
         }
-        return l;
+        return s;
     }
 };
 
 int main() {
     Solution *s = new Solution();
-    int v = s->mySqrt(2147395599);
+    string v = s->reverseString("a.");
     cout << v << endl;
     return 0;
 }
