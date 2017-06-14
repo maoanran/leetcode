@@ -1,36 +1,47 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
 class Solution {
 public:
-    int removeDuplicates(vector<int>& nums) {
-        if (nums.size() < 1) {
-            return 0;
+    vector<int> findSubstring(string s, vector<string>& words) {
+        if (words.size() < 1) {
+            return {};
         }
-        int pos = 1;
-        int last = nums[0];
-        for(int n : nums) {
-            if(n != last) {
-                nums[pos++] = n;
-                last = n;
+        int num = words.size();
+        int len = words[0].size();
+        unordered_map<string, int> dict;
+        vector<int> result;
+        for (string word: words) {
+            dict[word]++;
+        }
+        for (int i = 0; i < s.size() - num * len + 1; ++i) {
+            unordered_map<string, int> tmp;
+            for (int j = 0; j < num; ++j) {
+                string str = s.substr(i + j * len, len);
+                if (j == num - 1 && tmp[str] == dict[str] - 1) {
+                    result.push_back(i);
+                } else if (tmp[str] < dict[str]) {
+                    tmp[str]++;
+                } else {
+                    break;
+                }
             }
         }
-        return pos;
+        return result;
     }
 };
 
 int main() {
     Solution *s = new Solution();
-    vector<int> v{2, 2, 3, 3, 12};
-    int result = s->removeDuplicates(v);
+    vector<string> words{"word", "good", "best", "good"};
+    vector<int> v = s->findSubstring("wordgoodgoodgoodbestword", words);
 
     for (int n : v) {
         cout << n << endl;
     }
-
-    cout << "result" << result << endl;
 
     return 0;
 }
