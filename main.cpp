@@ -4,18 +4,26 @@ using namespace std;
 
 class Solution {
 public:
-    int mySqrt(int x) {
-        long l = x;
-        while (l * l > x) {
-            l = (l + x / l) / 2;
+    double myPow(double x, int n) {
+        if (x == 0) {
+            return 0;
         }
-        return l;
+        if (n == 0)
+            return 1;
+        if (n == INT_MIN) {
+            return 1 / (x * x * myPow(x * x, (n + 2) / -2));
+        }
+        if (n < 0) {
+            x = 1 / x;
+            n = -n;
+        }
+        return n & 1 ? x * myPow(x * x, n / 2) : myPow(x * x, n / 2);
     }
 };
 
 int main() {
     Solution *s = new Solution();
-    int v = s->mySqrt(2147395599);
+    double v = s->myPow(2.00000, -2147483648);
     cout << v << endl;
     return 0;
 }
