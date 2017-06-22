@@ -5,9 +5,9 @@ using namespace std;
 
 class Solution {
 public:
-    int search(vector<int> &nums, int target) {
+    bool search(vector<int> &nums, int target) {
         if (nums.size() == 0) {
-            return -1;
+            return false;
         }
         int l = 0, h = nums.size() - 1;
 
@@ -15,12 +15,8 @@ public:
         while (l <= h) {
             int m = (l + h) / 2;
 
-            if (target == nums[m]) {
-                return m;
-            } else if (target == nums[h]) {
-                return h;
-            } else if (target == nums[l]) {
-                return l;
+            if (target == nums[m] || target == nums[h] || target == nums[l]) {
+                return true;
             }
 
             if (nums[m] < nums[h]) {
@@ -29,15 +25,17 @@ public:
                 } else {
                     h = m - 1;
                 }
-            } else {
+            } else if (nums[m] > nums[h]){
                 if (nums[l] < target && target < nums[m]) {
                     h = m - 1;
                 } else {
                     l = m + 1;
                 }
+            } else {
+                h--;
             }
         }
-        return -1;
+        return false;
     }
 };
 
@@ -50,8 +48,8 @@ int main() {
 //    vector<int> nums{0, 4};
 //    vector<int> nums{4, 0};
 //    vector<int> nums{1};
-    vector<int> nums{};
-    int v = s->search(nums, 0);
+    vector<int> nums{1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    bool v = s->search(nums, 0);
     cout << v << endl;
     return 0;
 }
