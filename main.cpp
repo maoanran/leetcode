@@ -5,51 +5,34 @@ using namespace std;
 
 class Solution {
 public:
-    bool search(vector<int> &nums, int target) {
-        if (nums.size() == 0) {
-            return false;
-        }
-        int l = 0, h = nums.size() - 1;
-
-        // find smallest
-        while (l <= h) {
-            int m = (l + h) / 2;
-
-            if (target == nums[m] || target == nums[h] || target == nums[l]) {
-                return true;
+    int thirdMax(vector<int> &nums) {
+        long first = LONG_MIN,
+                second = LONG_MIN,
+                third = LONG_MIN;
+        for (int n : nums) {
+            if (n == first || n == second || n == third) {
+                continue;
             }
-
-            if (nums[m] < nums[h]) {
-                if (nums[m] < target && target < nums[h]) {
-                    l = m + 1;
-                } else {
-                    h = m - 1;
-                }
-            } else if (nums[m] > nums[h]){
-                if (nums[l] < target && target < nums[m]) {
-                    h = m - 1;
-                } else {
-                    l = m + 1;
-                }
-            } else {
-                h--;
+            if (n > first) {
+                third = second;
+                second = first;
+                first = n;
+            } else if (n > second) {
+                third = second;
+                second = n;
+            } else if (n > third) {
+                third = n;
             }
         }
-        return false;
+        return third == LONG_MIN ? first : third;
     }
 };
 
 int main() {
     Solution *s = new Solution();
-//    vector<int> nums{4, 5, 6, 0, 1, 2};
-//    vector<int> nums{0, 1, 2, 3, 4};
-//    vector<int> nums{ 2, 3, 4, 0, 1};
-//    vector<int> nums{4, 0, 1, 2, 3};
-//    vector<int> nums{0, 4};
-//    vector<int> nums{4, 0};
-//    vector<int> nums{1};
-    vector<int> nums{1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-    bool v = s->search(nums, 0);
+    vector<int> nums{2, 2, 3, 1};
+//    vector<int> nums{1, 2};
+    int v = s->thirdMax(nums);
     cout << v << endl;
     return 0;
 }
