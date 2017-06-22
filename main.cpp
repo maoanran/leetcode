@@ -1,38 +1,26 @@
 #include <iostream>
 #include <vector>
+#include <set>
 
 using namespace std;
 
 class Solution {
 public:
-    int thirdMax(vector<int> &nums) {
-        long first = LONG_MIN,
-                second = LONG_MIN,
-                third = LONG_MIN;
-        for (int n : nums) {
-            if (n == first || n == second || n == third) {
-                continue;
-            }
-            if (n > first) {
-                third = second;
-                second = first;
-                first = n;
-            } else if (n > second) {
-                third = second;
-                second = n;
-            } else if (n > third) {
-                third = n;
-            }
+    int findKthLargest(vector<int> &nums, int k) {
+        multiset<int> set;
+        for (int i : nums) {
+            set.insert(i);
         }
-        return third == LONG_MIN ? first : third;
+        std::multiset<int>::iterator iter = set.begin();
+        std::advance(iter, set.size() - k);
+        return *iter;
     }
 };
 
 int main() {
     Solution *s = new Solution();
-    vector<int> nums{2, 2, 3, 1};
-//    vector<int> nums{1, 2};
-    int v = s->thirdMax(nums);
+    vector<int> nums{3, 2, 3, 1, 2, 4, 5, 5, 6};
+    int v = s->findKthLargest(nums, 4);
     cout << v << endl;
     return 0;
 }
